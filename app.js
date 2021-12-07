@@ -37,21 +37,21 @@ const userSchema = new mongoose.Schema ({
   secret: String
 });
 
-userSchema.plugin(passportLocalMongoose);
-userSchema.plugin(findOrCreate);
+  userSchema.plugin(passportLocalMongoose);
+  userSchema.plugin(findOrCreate);
 
-const User = new mongoose.model("User", userSchema);
+  const User = new mongoose.model("User", userSchema);
 
-passport.use(User.createStrategy());
+  passport.use(User.createStrategy());
 
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
+  passport.serializeUser(function(user, done) {
+    done(null, user.id);
   });
+
+  passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+      done(err, user);
+    });
 });
 
 passport.use(new GoogleStrategy({
@@ -174,6 +174,4 @@ app.post("/login", function(req, res){
 });
 
 
-app.listen(3000, function() {
-  console.log("Server started on port 3000.");
-});
+
